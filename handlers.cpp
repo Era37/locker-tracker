@@ -61,7 +61,7 @@ void printOwner(json owner_json)
 
 void info(std::string infoArgs)
 {
-    std::vector<std::string> tokens = stringSplit(infoArgs, ' ');
+    std::vector<std::string> tokens = splitString(infoArgs, ' ');
     if (tokens.size() != 2)
     {
         Error("Incorrect number of arguments", false);
@@ -91,15 +91,14 @@ void clear(std::string clearArgs)
 
 void list(std::string listArgs)
 {
-    std::regex range_regex("(?<=--range(\\s|=))([0-9]+-[0-9]+)");
-    std::regex floor_regex("(?<=--floor(\\s|=))([0-9])");
-    std::regex hallway_regex("(?<=--hallway(\\s|=))(\\w+)");
+    std::regex range_regex(R"(--range(\s|=)[0-9]+-[0-9]+)");
+    std::regex floor_regex(R"(--floor(\s|=)[0-9])");
+    std::regex hallway_regex(R"(--hallway(\s|=)\w+)");
     json data = json::parse(f);
-    std::smatch match;
-
+    std::smatch match{};
     if (std::regex_search(listArgs, match, range_regex))
     {
-        std::vector<std::string> tokens = splitString(match.str(), "-");
+        std::vector<std::string> tokens = splitString(match.str(), '-');
         if (tokens.size() != 2)
         {
             Error("Incorrect number of arguments", false);

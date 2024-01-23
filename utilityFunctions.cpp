@@ -30,7 +30,7 @@ void Error(std::string message, bool exitProgram)
         exit(1);
 }
 
-std::vector<std::string> stringSplit(std::string string, char split_char)
+std::vector<std::string> splitString(std::string string, char split_char)
 {
     std::istringstream iss(string);
     std::string token;
