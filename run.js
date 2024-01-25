@@ -1,4 +1,4 @@
-const { writeFileSync } = require("fs");
+const { writeFileSync, readFileSync } = require("fs");
 
 const lockers = [];
 
@@ -1024,21 +1024,32 @@ const zones = [
   { hallName: "French", low: 7000, high: 7084, floor: 3 },
 ];
 
-for (const { low, high, hallName, floor } of zones) {
-  for (let i = low; i <= high; i++) {
-    let owner = null;
-    if (getRandomArbitrary(0, 1)) {
-      owner = { grade: getRandomArbitrary(4, 100), name: names[0] };
-      names.shift();
+function write() {
+  for (const { low, high, hallName, floor } of zones) {
+    for (let i = low; i <= high; i++) {
+      let owner = null;
+      if (getRandomArbitrary(0, 1)) {
+        owner = { grade: getRandomArbitrary(9, 13), name: names[0] };
+        if (getRandomArbitrary(0, 3) != 2 && owner.grade == 13) {
+          owner.grade -= getRandomArbitrary(1, 4);
+        }
+        names.shift();
+      }
+      lockers.push({
+        lockerNumber: i,
+        Hallway: hallName,
+        Owner: owner,
+        Floor: floor,
+      });
     }
-    lockers.push({
-      lockerNumber: i,
-      Hallway: hallName,
-      Owner: owner,
-      Floor: floor,
-    });
   }
-}
-console.log(lockers, names.length);
+  console.log(lockers, names.length);
 
-writeFileSync("students.json", JSON.stringify(lockers));
+  writeFileSync("students.json", JSON.stringify(lockers));
+}
+
+function read() {
+  const bytes = readFileSync("./students.json").toString();
+  console.log(JSON.parse(bytes).length);
+}
+write();
