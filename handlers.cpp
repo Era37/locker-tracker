@@ -92,7 +92,7 @@ void list(std::string listArgs) // Defines the list function that will list comm
 {
     std::regex range_regex(R"(--range(\s|=)[0-9]+-[0-9]+)");      // Defines regex that outlines how the range of lockers should be inputted
     std::regex floor_regex(R"(--floor(\s|=)[0-9])");              // Defines regex that outlines how the floor of lockers should be inputted
-    std::regex hallway_regex(R"(--hallway(\s|=)\w+)");            // Defines regex that outlines how the hallway of lockers should be inputted
+    std::regex hallway_regex(R"(--hallway(\s|=)[a-zA-z\-]+)");    // Defines regex that outlines how the hallway of lockers should be inputted
     json data = json::parse(std::ifstream("students.json"));      // Parses the students.json into a data json
     json data_copy = json::parse(std::ifstream("students.json")); // Parses students.json into a copy of the data variable
     std::smatch match{};                                          // Defines the match variable that will store the regex match
